@@ -18,6 +18,9 @@ class CsdnScrapyPipeline(object):
         self.post = mydb[sheetname]  # 得到它的表
 
     def process_item(self, item, spider):
-        data = dict(item)   #将sipider中yield过来的item转换成字典形式
-        self.post.insert(data)  #保存到mongodb中
+        # 去除已经收录过到作者
+        count = self.post.find({'uid':item['uid']}).count()
+        if(count == 0):
+            data = dict(item)   #将sipider中yield过来的item转换成字典形式
+            self.post.insert(data)  #保存到mongodb中
         return item
