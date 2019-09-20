@@ -73,15 +73,15 @@ class comicspider(scrapy.Spider):
         records = hxs.xpath("//*[@id='asideProfile']/div[2]/dl/dt//text()").extract()
         records_num = hxs.xpath("//*[@id='asideProfile']/div[2]/dl/dd//text()").extract()
         for i in range(len(records)):
-            item[records[i]] = records_num[i]
+            item[records[i]] = self.getNum(records_num[i])
         sorts = hxs.xpath("//*[@id='asideProfile']/div[3]/dl/dt//text()").extract()
         sorts_num = hxs.xpath("//*[@id='asideProfile']/div[3]/dl/dd//@title").extract()
         sorts_num.append(hxs.xpath("//*[@id='asideProfile']/div[3]/dl[4]//@title").extract()[0])
         str = sorts_num[0]
-        item['grade']=str[0:str.find(',')]
-        item['visitor'] = sorts_num[1]
-        item['integral'] = sorts_num[2]
-        item['sort'] = sorts_num[3]
+        item['grade']=self.getNum(str[0:str.find(',')])
+        item['visitor'] = self.getNum(sorts_num[1])
+        item['integral'] = self.getNum(sorts_num[2])
+        item['sort'] = self.getNum(sorts_num[3])
         # print(data)
         yield item
 
@@ -98,6 +98,12 @@ class comicspider(scrapy.Spider):
         else:
             url = (url[url.find('/nav/') + len('/nav/'):])
         return url
+
+    def getNum(self,str):
+        for i in range(len(str)):
+            if (ord(str[i]) < 48 or ord(str[i]) > 57):
+                return int(str[0:i])
+        return int(str)
 
 
 

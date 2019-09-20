@@ -1,16 +1,9 @@
-import pymongo
-client = pymongo.MongoClient(host='localhost', port=27017)
-db = client.csdn_db
-collection = db.csdn_info
-student = {
-    'id': '20170101',
-    'name': 'Jordan',
-    'age': 20,
-    'gender': 'male'
-}
-
-count = collection.find({'uid':'u010979642'}).count()
-print(count)
-# if(results.size>0):
-#     print("has exists")
-
+#
+# c = input("请输入一个字符串: ")
+#
+# # 用户输入ASCII码，并将输入的数字转为整型
+#
+# # print(c + " 的ASCII 码为", ord(c))
+# for i in range(len(c)):
+#     if(ord(c[i])<48 or ord(c[i])>57):
+#         print(int(c[0:i]))
